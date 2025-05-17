@@ -1,4 +1,4 @@
-import Form from 'next/form';
+import { Form } from 'react-dom';
 
 import { signOut } from '@/app/(auth)/auth';
 
