@@ -48,6 +48,11 @@ You can deploy your own version of the Next.js AI Chatbot to Vercel with one cli
 
 You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
 
+> **Database URL**: the app expects `POSTGRES_URL` for the Postgres connection. If
+> your provider (such as Vercel Postgres) supplies a `DATABASE_URL` variable,
+> rename it or duplicate it as `POSTGRES_URL` so migrations can run during the
+> build step.
+
 > Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
 
 1. Install Vercel CLI: `npm i -g vercel`
