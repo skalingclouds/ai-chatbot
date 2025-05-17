@@ -1,4 +1,4 @@
-import Form from 'next/form';
+import { Form } from 'react-dom';
 
 import { Input } from './ui/input';
 import { Label } from './ui/label';
