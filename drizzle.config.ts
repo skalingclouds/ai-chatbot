@@ -10,7 +10,8 @@ export default defineConfig({
   out: './lib/db/migrations',
   dialect: 'postgresql',
   dbCredentials: {
+    // Allow DATABASE_URL as a fallback for POSTGRES_URL
     // biome-ignore lint: Forbidden non-null assertion.
-    url: process.env.POSTGRES_URL!,
+    url: (process.env.POSTGRES_URL || process.env.DATABASE_URL)!,
   },
 });
