@@ -38,8 +38,12 @@ import { ChatSDKError } from '../errors';
 // use the Drizzle adapter for Auth.js / NextAuth
 // https://authjs.dev/reference/adapter/drizzle
 
+const POSTGRES_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+if (!POSTGRES_URL) {
+  throw new Error('POSTGRES_URL or DATABASE_URL environment variable is not set');
+}
 // biome-ignore lint: Forbidden non-null assertion.
-const client = postgres(process.env.POSTGRES_URL!);
+const client = postgres(POSTGRES_URL!);
 const db = drizzle(client);
 
 export async function getUser(email: string): Promise<Array<User>> {
