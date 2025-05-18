@@ -11,6 +11,9 @@ import { Markdown } from './markdown';
 import { MessageActions } from './message-actions';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
+import { OptionButtons } from './option-buttons';
+import { AvailabilityDisplay } from './availability';
+import { ProfileCard } from './profile-card';
 import equal from 'fast-deep-equal';
 import { cn, sanitizeText } from '@/lib/utils';
 import { Button } from './ui/button';
@@ -27,6 +30,7 @@ const PurePreviewMessage = ({
   isLoading,
   setMessages,
   reload,
+  append,
   isReadonly,
   requiresScrollPadding,
 }: {
@@ -36,6 +40,7 @@ const PurePreviewMessage = ({
   isLoading: boolean;
   setMessages: UseChatHelpers['setMessages'];
   reload: UseChatHelpers['reload'];
+  append: UseChatHelpers['append'];
   isReadonly: boolean;
   requiresScrollPadding: boolean;
 }) => {
@@ -212,6 +217,31 @@ const PurePreviewMessage = ({
                           result={result}
                           isReadonly={isReadonly}
                         />
+                      ) : toolName === 'showOptions' ? (
+                        <OptionButtons
+                          options={result.options}
+                          onSelect={(value) =>
+                            append({ role: 'user', content: value })
+                          }
+                        />
+                      ) : toolName === 'getAllLocations' ? (
+                        <OptionButtons
+                          options={result.payload.locations.map(
+                            (l: any) => l.location,
+                          )}
+                          onSelect={(value) =>
+                            append({ role: 'user', content: value })
+                          }
+                        />
+                      ) : toolName === 'getAppointmentAvailability' ? (
+                        <AvailabilityDisplay
+                          availability={result.payload}
+                          onSelect={(iso) =>
+                            append({ role: 'user', content: iso })
+                          }
+                        />
+                      ) : toolName === 'getUserProfile' ? (
+                        <ProfileCard user={result.payload.user} />
                       ) : (
                         <pre>{JSON.stringify(result, null, 2)}</pre>
                       )}
