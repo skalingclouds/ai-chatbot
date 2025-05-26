@@ -162,3 +162,12 @@
 .suggestion-highlight {
     @apply bg-blue-200 hover:bg-blue-300 dark:hover:bg-blue-400/50 dark:text-blue-50 dark:bg-blue-500/40;
 }
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-0.25rem); }
+}
+
+.bounce-dot {
+  display: inline-block;
+  animation: dot-bounce 1s infinite;
+}

@@ -26,6 +26,14 @@ export class ChatPage {
     return this.page.getByTestId('scroll-to-bottom-button');
   }
 
+  public get thinkingMessage() {
+    return this.page.getByTestId('message-assistant-loading');
+  }
+
+  public async getStatusText() {
+    return this.thinkingMessage.getByTestId('status-text').innerText();
+  }
+
   async createNewChat() {
     await this.page.goto('/');
   }

@@ -3,7 +3,7 @@
 import type { UIMessage } from 'ai';
 import cx from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import type { Vote } from '@/lib/db/schema';
 import { DocumentToolCall, DocumentToolResult } from './document';
 import { PencilEditIcon, SparklesIcon } from './icons';
@@ -283,6 +283,16 @@ export const PreviewMessage = memo(
 
 export const ThinkingMessage = () => {
   const role = 'assistant';
+  const statuses = ['Analyzing', 'Reasoning', 'Responding'];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(
+      () => setIndex((i) => (i + 1) % statuses.length),
+      2000,
+    );
+    return () => clearInterval(interval);
+  }, [statuses.length]);
 
   return (
     <motion.div
@@ -304,9 +314,14 @@ export const ThinkingMessage = () => {
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Hmm...
+        <div className="flex flex-col gap-2 w-full" data-testid="status-text">
+          <div className="flex items-center gap-1 text-muted-foreground">
+            {statuses[index]}
+            <span className="ml-1" data-testid="bouncing-dots">
+              <span className="bounce-dot">.</span>
+              <span className="bounce-dot" style={{ animationDelay: '0.2s' }}>.</span>
+              <span className="bounce-dot" style={{ animationDelay: '0.4s' }}>.</span>
+            </span>
           </div>
         </div>
       </div>
