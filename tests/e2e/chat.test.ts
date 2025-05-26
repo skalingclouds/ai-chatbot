@@ -17,6 +17,18 @@ test.describe('Chat activity', () => {
     expect(assistantMessage.content).toContain("It's just green duh!");
   });
 
+  test('Status indicator cycles while waiting', async ({ page }) => {
+    await chatPage.sendUserMessage('Why is grass green?');
+
+    await expect(chatPage.thinkingMessage).toBeVisible();
+    const firstStatus = await chatPage.getStatusText();
+    await page.waitForTimeout(2100);
+    const secondStatus = await chatPage.getStatusText();
+    expect(firstStatus).not.toBe(secondStatus);
+
+    await chatPage.isGenerationComplete();
+  });
+
   test('Redirect to /chat/:id after submitting message', async () => {
     await chatPage.sendUserMessage('Why is grass green?');
     await chatPage.isGenerationComplete();
